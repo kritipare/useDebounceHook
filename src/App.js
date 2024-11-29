@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { useDebounce } from "./useDebounce";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App() {
+    const saveData = () => {
+        console.log("Save....");
+    };
+
+    const debouncedSave = useDebounce(saveData, 2000);
+    const [search, setSearch] = useState("");
+
+    const handler = (e) => {
+        setSearch(e.target.value);
+        debouncedSave();
+    };
+
+    return (
+        <div className='App'>
+            <input type='text' value={search} onChange={handler} />
+        </div>
+    );
 }
-
-export default App;
